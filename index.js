@@ -13,7 +13,17 @@ app.use(logger);
 app.get('/api/notes', (req, res) => res.json(notes));
 
 // Get single note
-app.get('/api/notes/:id', (req, res) => res.json(notes.filter(note => note.id == parseInt(req.params.id))));
+app.get('/api/notes/:id', (req, res) => {
+
+    const found = notes.some(note => note.id == parseInt(req.params.id));
+    if(found) {
+        res.json(notes.filter(note => note.id == parseInt(req.params.id)));
+    } else {
+        res.status(400).json({
+            msg: `Note with id: ${req.params.id} not found.` 
+        });
+    }
+});
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
