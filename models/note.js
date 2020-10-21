@@ -8,5 +8,7 @@ module.exports = (sequelize, type) => {
         title: type.STRING,
         message: type.STRING,
         tags: type.STRING
-    })
+    },{
+        timestamps: false
+    });
 }
