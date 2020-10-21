@@ -10,7 +10,7 @@ router.get('/', (req, res) => Note.findAll().then(notes => res.json(notes)));
 router.get('/:id', (req, res) => {
 
     Note.findByPk(req.params.id).then(note => {
-        return note === null ? res.json({ msg: `Note with id ${req.params.id} not found!` }) : res.json(note);
+        return note === null ? res.status(400).json({ msg: `Note with id ${req.params.id} not found!` }) : res.json(note);
     });
 });
 
@@ -41,9 +41,9 @@ router.delete('/:id', (req, res) => {
 
     Note.findByPk(req.params.id).then(note => {
         if(note === null) {
-            return res.json({ msg: `Note with id ${req.params.id} not found!` });
+            return res.status(400).json({ msg: `Note with id ${req.params.id} not found!` });
         } else {
-            return note.destroy().then((deleted) => res.send(deleted));
+            return note.destroy().then((deleted) => res.json(deleted));
         }
     });
 });
