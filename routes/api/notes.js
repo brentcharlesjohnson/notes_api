@@ -38,7 +38,14 @@ router.put('/:id', (req, res) => {
 
 // Delete Note 
 router.delete('/:id', (req, res) => {
-    // TODO
+
+    Note.findByPk(req.params.id).then(note => {
+        if(note === null) {
+            return res.json({ msg: `Note with id ${req.params.id} not found!` });
+        } else {
+            return note.destroy().then((deleted) => res.send(deleted));
+        }
+    });
 });
 
 module.exports = router;
