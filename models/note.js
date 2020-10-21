@@ -5,8 +5,20 @@ module.exports = (sequelize, type) => {
           primaryKey: true,
           autoIncrement: true
         },
-        title: type.STRING,
-        message: type.STRING,
+        title: {
+            type: type.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true 
+            }
+        },
+        message: {
+            type: type.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
         tags: type.STRING
     },{
         timestamps: false

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const notes = require('../../Notes'); // deprecated
 const Note = require('../../sequelize');
 
 // Get all notes
@@ -16,24 +15,23 @@ router.get('/:id', (req, res) => {
 
 // Create note
 router.post('/', (req, res) => {
-    Note.create(req.body).then(note => res.json(note));
+    Note.create(req.body).then(note => res.json(note)).catch(error => res.status(400).json(error));
 });
 
 // Update note
 router.put('/:id', (req, res) => {
 
-    const found = notes.some(note => note.id == parseInt(req.params.id));
-    if(found) {
-        const idx = notes.findIndex(note => note.id === parseInt(req.params.id));
-        if(req.body.title) notes[idx].title = req.body.title;
-        if(req.body.message) notes[idx].message = req.body.message;
-        if(req.body.tags) notes[idx].tags = req.body.tags;
-        res.json({msg: "Note updated", note: notes[idx]});
-    } else {
-        res.status(400).json({
-            msg: `Note with id: ${req.params.id} not found.` 
-        });
-    }
+    Note.findByPk(req.params.id).then(note => {
+        if(note === null) {
+            return res.status(400).json({ msg: `Note with id ${req.params.id} not found!` });
+        } else {
+            if(req.body.title) note.title = req.body.title;
+            if(req.body.message) note.message = req.body.message;
+            if(req.body.tags) note.tags = req.body.tags;
+            return note.save().then((saved) => res.json({msg: "Note Updated", note: saved}));
+        }
+    });
+
 });
 
 // Delete Note 
