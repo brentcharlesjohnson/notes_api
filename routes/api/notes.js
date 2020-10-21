@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const notes = require('../../Notes');
+const notes = require('../../Notes'); // deprecated
+const Note = require('../../sequelize');
 
 // Get all notes
-router.get('/', (req, res) => res.json(notes));
+router.get('/', (req, res) => Note.findAll().then(notes => res.json(notes)));
 
 // Get single note
 router.get('/:id', (req, res) => {
@@ -20,18 +21,7 @@ router.get('/:id', (req, res) => {
 
 // Create note
 router.post('/', (req, res) => {
-    const newNote = {
-        id: notes.reduce((max, note) => (note.id > max ? note.id : max), notes[0].id) + 1,
-        title: req.body.title,
-        message: req.body.message,
-        tags: !req.body.tags ? "" : req.body.tags
-    };
-
-    if (!newNote.title || !newNote.message) {
-        return res.status(400).json({ msg: "Title and Message are required" });
-    }
-    notes.push(newNote);
-    res.json(newNote);
+    Note.create(req.body).then(note => res.json(note));
 });
 
 // Update note
@@ -49,6 +39,11 @@ router.put('/:id', (req, res) => {
             msg: `Note with id: ${req.params.id} not found.` 
         });
     }
+});
+
+// Delete Note 
+router.delete('/:id', (req, res) => {
+    // TODO
 });
 
 module.exports = router;
