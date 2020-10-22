@@ -41,7 +41,7 @@ router.delete('/:id', (req, res) => {
         if(note === null) {
             return res.status(400).json({ msg: `Note with id ${req.params.id} not found!` });
         } else {
-            return note.destroy().then((deleted) => res.json(deleted));
+            return note.destroy().then((deleted) => res.json({msg: "Note Deleted", note: deleted}));
         }
     });
 });
