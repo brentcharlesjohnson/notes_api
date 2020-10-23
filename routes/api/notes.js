@@ -2,6 +2,22 @@ const express = require('express');
 const router = express.Router();
 const Note = require('../../sequelize');
 
+// Define route paramter middleware to 
+router.param('nid', (req, res, next, nid) => {
+    Note.findByPk(nid).then((note) => {
+        console.log(`inside middleware! nid: ${nid}`);
+        if (note === null) {
+            res.status(400).json({ msg: `Note with id ${nid} not found!` });
+            next();
+        } else {
+            req.note = note;
+            next();
+        }
+    }).catch((error) => {
+        next(error)
+    });
+});
+
 // Get all notes
 router.get('/', (req, res) => Note.findAll().then(notes => res.json(notes)));
 
@@ -35,15 +51,19 @@ router.put('/:id', (req, res) => {
 });
 
 // Delete Note 
-router.delete('/:id', (req, res) => {
+router.delete('/:nid', (req, res) => {
 
-    Note.findByPk(req.params.id).then(note => {
-        if(note === null) {
-            return res.status(400).json({ msg: `Note with id ${req.params.id} not found!` });
-        } else {
-            return note.destroy().then((deleted) => res.json({msg: "Note Deleted", note: deleted}));
-        }
-    });
+    if(req.note) {
+        req.note.destroy().then((deleted) => res.json({msg: "Note Deleted", note: deleted}));
+    }
+
+    //Note.findByPk(req.params.id).then(note => {
+    //    if(note === null) {
+    //        return res.status(400).json({ msg: `Note with id ${req.params.id} not found!` });
+    //    } else {
+    //        return note.destroy().then((deleted) => res.json({msg: "Note Deleted", note: deleted}));
+    //    }
+    //});
 });
 
 module.exports = router;
