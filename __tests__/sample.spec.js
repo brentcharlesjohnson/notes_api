@@ -43,26 +43,25 @@ describe('CRUD operations for Note', () => {
         expect(response.body.note).toHaveProperty('title', 'Test updated');
     });
 
-    it('Should delete a note', async () => {
-        const response = await request
-            .delete('/api/notes/1');
-        expect(response.statusCode).toBe(204); 
-    });
-
     it('Should return status code 400 if db constraints are violated.', async () => {
         const response = await request
-            .put('/api/notes/1')
+            .post('/api/notes')
             .send({
                 message: null 
             });
         expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty('error');
+        expect(response.body).toHaveProperty('errors');
+    });
+
+    it('Should delete a note', async () => {
+        const response = await request
+            .delete('/api/notes/1');
+        expect(response.statusCode).toBe(200); 
     });
 
     it('Should respond with status code 404 if resource is not found.', async () => {
         const response = await request
-            .get('/api/notes/1');
+            .delete('/api/notes/1');
         expect(response.statusCode).toBe(404);
     })
-
 });

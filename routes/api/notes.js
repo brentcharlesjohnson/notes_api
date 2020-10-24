@@ -2,13 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Note = require('../../sequelize');
 
-// Define route paramter middleware to 
+// Define route paramter middleware
 router.param('nid', (req, res, next, nid) => {
     Note.findByPk(nid).then((note) => {
         console.log(`inside middleware! nid: ${nid}`);
         if (note === null) {
-            res.status(400).json({ msg: `Note with id ${nid} not found!` });
-            next();
+            next(res.status(404).json({ msg: `Note with id ${nid} not found!` }));
         } else {
             req.note = note;
             next();
@@ -54,18 +53,7 @@ router.put('/:id', (req, res) => {
 
 // Delete Note 
 router.delete('/:nid', (req, res) => {
-
-    if(req.note) {
-        req.note.destroy().then((deleted) => res.json({msg: "Note Deleted", note: deleted}));
-    }
-
-    //Note.findByPk(req.params.id).then(note => {
-    //    if(note === null) {
-    //        return res.status(400).json({ msg: `Note with id ${req.params.id} not found!` });
-    //    } else {
-    //        return note.destroy().then((deleted) => res.json({msg: "Note Deleted", note: deleted}));
-    //    }
-    //});
+    req.note.destroy().then((deleted) => res.status(200).json({msg: "Note Deleted", note: deleted}));
 });
 
 module.exports = router;
