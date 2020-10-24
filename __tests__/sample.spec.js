@@ -45,7 +45,7 @@ describe('CRUD operations for Note', () => {
 
     it('Should return status code 400 if db constraints are violated.', async () => {
         const response = await request
-            .post('/api/notes')
+            .put('/api/notes/1')
             .send({
                 message: null 
             });

@@ -36,19 +36,10 @@ router.post('/', (req, res) => {
 });
 
 // Update note
-router.put('/:id', (req, res) => {
-
-    Note.findByPk(req.params.id).then(note => {
-        if(note === null) {
-            return res.status(404).json({ msg: `Note with id ${req.params.id} not found!` });
-        } else {
-            if(req.body.title) note.title = req.body.title;
-            if(req.body.message) note.message = req.body.message;
-            if(req.body.tags) note.tags = req.body.tags;
-            return note.save().then((saved) => res.json({msg: "Note Updated", note: saved}));
-        }
-    });
-
+router.put('/:nid', (req, res) => {
+    req.note.update(req.body)
+        .then(updated => res.json({msg: "Note Updated", note: updated}))
+        .catch(error => res.status(400).json(error));
 });
 
 // Delete Note 
