@@ -21,11 +21,8 @@ router.param('nid', (req, res, next, nid) => {
 router.get('/', (req, res) => Note.findAll().then(notes => res.json(notes)));
 
 // Get single note
-router.get('/:id', (req, res) => {
-
-    Note.findByPk(req.params.id).then(note => {
-        return note === null ? res.status(404).json({ msg: `Note with id ${req.params.id} not found!` }) : res.json(note);
-    });
+router.get('/:nid', (req, res) => {
+    res.json(req.note);
 });
 
 // Create note

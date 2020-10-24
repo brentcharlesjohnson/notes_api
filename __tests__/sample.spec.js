@@ -24,7 +24,13 @@ describe('CRUD operations for Note', () => {
         expect(response.body).toHaveProperty('note');
     });
 
-    it('Should list notes', async () => {
+    it('Should get a note', async () => {
+        const response = await request
+            .get('/api/notes/1');
+        expect(response.statusCode).toBe(200);
+    });
+
+    it('Should list all notes', async () => {
         const response = await request
             .get('/api/notes');
         expect(response.statusCode).toBe(200);
