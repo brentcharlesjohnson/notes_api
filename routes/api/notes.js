@@ -3,11 +3,11 @@ const router = express.Router();
 const Note = require('../../sequelize');
 
 // Define route paramter middleware
-router.param('id', (req, res, next, id) => {
-    Note.findByPk(id).then((note) => {
-        console.log(`inside middleware! id: ${id}`);
+const handler = (req, res, next, value) => {
+    Note.findByPk(value).then((note) => {
+        console.log(`inside middleware! id: ${value}`);
         if (note === null) {
-            next(res.status(404).json({ msg: `Note with id ${id} not found!` }));
+            next(res.status(404).json({ msg: `Note with id ${value} not found!` }));
         } else {
             req.note = note;
             next();
@@ -15,7 +15,8 @@ router.param('id', (req, res, next, id) => {
     }).catch((error) => {
         next(error)
     });
-});
+};
+router.param('id', handler);
 
 // Get all notes
 router.get('/', (req, res) => Note.findAll().then(notes => res.json(notes)));
