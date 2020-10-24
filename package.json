@@ -7,7 +7,7 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "test": "jest --runInBand --detectOpenHandles",
+    "test": "jest",
     "start": "node index",
     "dev": "nodemon index"
   },

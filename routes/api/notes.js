@@ -25,13 +25,15 @@ router.get('/', (req, res) => Note.findAll().then(notes => res.json(notes)));
 router.get('/:id', (req, res) => {
 
     Note.findByPk(req.params.id).then(note => {
-        return note === null ? res.status(400).json({ msg: `Note with id ${req.params.id} not found!` }) : res.json(note);
+        return note === null ? res.status(404).json({ msg: `Note with id ${req.params.id} not found!` }) : res.json(note);
     });
 });
 
 // Create note
 router.post('/', (req, res) => {
-    Note.create(req.body).then(note => res.json(note)).catch(error => res.status(400).json(error));
+    Note.create(req.body)
+        .then(created => res.status(201).json({msg: "Note Created", note: created}))
+        .catch(error => res.status(400).json(error));
 });
 
 // Update note
@@ -39,7 +41,7 @@ router.put('/:id', (req, res) => {
 
     Note.findByPk(req.params.id).then(note => {
         if(note === null) {
-            return res.status(400).json({ msg: `Note with id ${req.params.id} not found!` });
+            return res.status(404).json({ msg: `Note with id ${req.params.id} not found!` });
         } else {
             if(req.body.title) note.title = req.body.title;
             if(req.body.message) note.message = req.body.message;
