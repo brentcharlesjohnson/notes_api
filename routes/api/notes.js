@@ -1,11 +1,11 @@
 const express = require('express');
+const pluralize = require('pluralize');
 const router = express.Router();
 const Note = require('../../sequelize');
 
 // Define route paramter middleware
 const handler = (req, res, next, value) => {
     Note.findByPk(value).then((note) => {
-        console.log(`inside middleware! id: ${value}`);
         if (note === null) {
             next(res.status(404).json({ msg: `Note with id ${value} not found!` }));
         } else {
@@ -41,8 +41,22 @@ router.put('/:id', (req, res) => {
 });
 
 // Delete Note 
-router.delete('/:id', (req, res) => {
-    req.note.destroy().then((deleted) => res.status(200).json({msg: "Note Deleted", note: deleted}));
+router.delete('/', (req, res) => {
+    if (req.query.hasOwnProperty('id')) {
+        Note.destroy({
+            where: {
+                id: req.query.id
+            }
+        }).then((rows) => {
+            if (rows) {
+                return res.status(200).json({ msg: pluralize('Note', rows, true) + " Deleted."});
+            } else {
+                return res.status(404).json({ msg: "None of the parameters are valid!" });
+            }
+        });
+    } else {
+        res.status(400).json({ msg: "Please provide at least one id as a parameter"}); 
+    }
 });
 
 module.exports = router;

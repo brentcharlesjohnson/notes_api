@@ -61,13 +61,13 @@ describe('CRUD operations for Note', () => {
 
     it('Should delete a note', async () => {
         const response = await request
-            .delete('/api/notes/1');
+            .delete('/api/notes?id=1');
         expect(response.statusCode).toBe(200); 
     });
 
     it('Should respond with status code 404 if resource is not found.', async () => {
         const response = await request
-            .delete('/api/notes/1');
+            .get('/api/notes/1');
         expect(response.statusCode).toBe(404);
     })
 });
