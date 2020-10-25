@@ -10,6 +10,7 @@ This express project provides a REST API for a frontend application. The data mo
 
 To start the node server:
 
+*  clone this repository
 *  `npm install` to install dependencies
 *  make sure you have [sqlite](https://www.sqlite.org/index.html) installed
 * `npm run dev`
@@ -27,3 +28,7 @@ All API endpoints can be accessed at the path `/api/notes`. The following HTTP m
     * the note will be updated, invalid JSON will return a 400 Bad Request response
 * DELETE
     * one or more notes can be deleted at once by providing note ids as query string parameters. For example `?id=1&id=2` will delete notes with id 1 and 2.
+
+## Tests
+
+This project uses [jest](https://jestjs.io/) and [supertest](https://www.npmjs.com/package/supertest) to test the behavior of api endpoints. Tests are executed with the `npm test` command.
