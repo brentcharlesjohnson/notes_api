@@ -4,9 +4,16 @@
   "description": "",
   "main": "dist/index.js",
   "jest": {
-    "testPathIgnorePatterns": ["<rootDir>/dist", "<rootDir>/node_modules/"],
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist",
+      "<rootDir>/node_modules/"
+    ],
     "testEnvironment": "node",
-    "transform": {"\\.ts$": ["ts-jest"]}
+    "transform": {
+      "\\.ts$": [
+        "ts-jest"
+      ]
+    }
   },
   "scripts": {
     "test": "jest",
@@ -26,6 +33,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.15",
     "@types/node": "^14.14.5",
+    "@types/supertest": "^2.0.10",
     "@types/validator": "^13.1.0",
     "jest": "^26.6.0",
     "nodemon": "^2.0.6",
