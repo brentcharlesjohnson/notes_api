@@ -1,7 +1,7 @@
 const express = require('express');
 const pluralize = require('pluralize');
 const router = express.Router();
-const Note = require('../../sequelize');
+import { Note } from '../../sequelize';
 
 // Define route paramter middleware
 const handler = (req, res, next, value) => {
@@ -59,4 +59,4 @@ router.delete('/', (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

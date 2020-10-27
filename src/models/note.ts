@@ -1,4 +1,4 @@
-module.exports = (sequelize, type) => {
+export const NoteModel = (sequelize, type) => {
     return sequelize.define('note', {
         id: {
           type: type.INTEGER,

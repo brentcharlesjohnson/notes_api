@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
         "target": "esnext",
+        "types": ["jest", "node", "validator"],
         "module": "commonjs",
         "allowJs": true,
-        "checkJs": false,
+        "checkJs": true,
         "outDir": "./dist",
         "rootDir": "./src",
         "strict": false,

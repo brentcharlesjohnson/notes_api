@@ -1,7 +1,13 @@
-const app = require('../server');
-const supertest = require('supertest');
-const { sequelize } = require('../sequelize');
+import app from '../server';
+import supertest from 'supertest';
+import { sequelize } from '../sequelize';
+
 const request = supertest(app); 
+
+/*
+ * tests could be improved by mocking the database connection
+ * tests are brittle because they are not isolated
+ */
 
 describe('CRUD operations for Note', () => {
 
@@ -10,7 +16,8 @@ describe('CRUD operations for Note', () => {
     });
 
     afterAll(async (done) => {
-        sequelize.close(done);
+        sequelize.close();
+        return done; 
     });
 
     it('Should create a new note', async () => {

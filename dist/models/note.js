@@ -1,4 +1,7 @@
-module.exports = (sequelize, type) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NoteModel = void 0;
+exports.NoteModel = (sequelize, type) => {
     return sequelize.define('note', {
         id: {
             type: type.INTEGER,

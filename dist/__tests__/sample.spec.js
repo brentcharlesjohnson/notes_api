@@ -1,13 +1,21 @@
-const app = require('../server');
-const supertest = require('supertest');
-const { sequelize } = require('../sequelize');
-const request = supertest(app);
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const server_1 = __importDefault(require("../server"));
+const supertest_1 = __importDefault(require("supertest"));
+const sequelize_1 = require("../sequelize");
+const request = supertest_1.default(server_1.default);
+/* tests could be improved by mocking the database connection
+ * tests are brittle because they are not isolated
+ */
 describe('CRUD operations for Note', () => {
     beforeAll(async () => {
-        await sequelize.sync();
+        await sequelize_1.sequelize.sync();
     });
-    afterAll(async (done) => {
-        sequelize.close(done);
+    afterAll(async () => {
+        sequelize_1.sequelize.close();
     });
     it('Should create a new note', async () => {
         const response = await request

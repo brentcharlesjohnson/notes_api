@@ -1,11 +1,17 @@
-const express = require('express');
-const path = require('path');
-const app = express();
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
+const notes_1 = __importDefault(require("./routes/api/notes"));
+const app = express_1.default();
 // Init Body Parser
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: false }));
 // Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 // Set API routes
-app.use('/api/notes', require('./routes/api/notes'));
-module.exports = app;
+app.use('/api/notes', notes_1.default);
+exports.default = app;
