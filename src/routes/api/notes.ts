@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     req.note.update(req.body)
         .then((updated: any) => res.json({msg: "Note Updated", note: updated}))
-        .catch(error => res.status(400).json(error));
+        .catch((error: any) => res.status(400).json(error));
 });
 
 // Delete Note 

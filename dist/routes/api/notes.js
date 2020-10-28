@@ -49,7 +49,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     req.note.update(req.body)
         .then((updated) => res.json({ msg: "Note Updated", note: updated }))
-        .catch(error => res.status(400).json(error));
+        .catch((error) => res.status(400).json(error));
 });
 router.delete('/', (req, res) => {
     if (req.query.hasOwnProperty('id')) {
