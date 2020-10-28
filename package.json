@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "jest": {
     "testPathIgnorePatterns": [
-      "<rootDir>/dist",
+      "<rootDir>/src",
       "<rootDir>/node_modules/"
     ],
     "testEnvironment": "node",
