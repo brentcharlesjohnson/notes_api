@@ -7,7 +7,7 @@ exports.sequelize = new sequelize_1.Sequelize({
     dialect: 'sqlite',
     storage: 'database.sqlite'
 });
-exports.Note = note_1.NoteModel(exports.sequelize, sequelize_1.Sequelize);
+exports.Note = note_1.NoteFactory(exports.sequelize);
 exports.sequelize.sync({ force: true })
     .then(() => {
     console.log(`Database & tables created!`);

@@ -7,10 +7,6 @@ const server_1 = __importDefault(require("../server"));
 const supertest_1 = __importDefault(require("supertest"));
 const sequelize_1 = require("../sequelize");
 const request = supertest_1.default(server_1.default);
-/*
- * tests could be improved by mocking the database connection
- * tests are brittle because they are not isolated
- */
 describe('CRUD operations for Note', () => {
     beforeAll(async () => {
         await sequelize_1.sequelize.sync();

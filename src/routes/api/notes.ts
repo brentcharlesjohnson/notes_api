@@ -1,11 +1,12 @@
-const express = require('express');
+import * as express from 'express';
 const pluralize = require('pluralize');
-const router = express.Router();
 import { Note } from '../../sequelize';
 
+const router = express.Router();
+
 // Define route paramter middleware
-const handler = (req, res, next, value) => {
-    Note.findByPk(value).then((note) => {
+const handler = (req: express.Request, res: express.Response, next: express.NextFunction, value: number) => {
+    Note.findByPk(value).then(note => {
         if (note === null) {
             next(res.status(404).json({ msg: `Note with id ${value} not found!` }));
         } else {
@@ -36,7 +37,7 @@ router.post('/', (req, res) => {
 // Update note
 router.put('/:id', (req, res) => {
     req.note.update(req.body)
-        .then(updated => res.json({msg: "Note Updated", note: updated}))
+        .then((updated: any) => res.json({msg: "Note Updated", note: updated}))
         .catch(error => res.status(400).json(error));
 });
 
@@ -47,7 +48,7 @@ router.delete('/', (req, res) => {
             where: {
                 id: req.query.id
             }
-        }).then((rows) => {
+        }).then((rows: number) => {
             if (rows) {
                 return res.status(200).json({ msg: pluralize('Note', rows, true) + " Deleted."});
             } else {

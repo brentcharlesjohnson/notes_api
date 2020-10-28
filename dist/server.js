@@ -7,11 +7,8 @@ const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const notes_1 = __importDefault(require("./routes/api/notes"));
 const app = express_1.default();
-// Init Body Parser
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
-// Set static folder
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
-// Set API routes
 app.use('/api/notes', notes_1.default);
 exports.default = app;
